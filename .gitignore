@@ -19,14 +19,23 @@
 # misc
 .DS_Store
 *.pem
-
-# debug
+*.log
+*.lock
+*.sqlite
+*.swp
+*.out
+*.pid
+*.seed
+*.pid.lock
+*.log.*
+*.sql
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # local env files
 .env*.local
+.env*
 
 # vercel
 .vercel
@@ -34,3 +43,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma seed
+prisma/seed.ts
+src/public/maa.jpg
