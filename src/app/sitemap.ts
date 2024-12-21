@@ -2,7 +2,7 @@ import { getPost } from "@/lib/getThings";
 
 export default async function sitemap() {
   const testData = await getPost();
-  const baseUrl = "https://AstroArt.com";
+  const baseUrl = process.env.BASE_URL || "";
 
   const postUrls = testData.map((post) => ({
     url: `${baseUrl}/post/${post.id}`,

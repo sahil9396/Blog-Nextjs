@@ -8,7 +8,7 @@ type Props = {
 };
 
 const SharingButton = ({ id }: Props) => {
-  const sendingUrl = `https://localhost:3000/post/${id}`;
+  const sendingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/post/${id}`;
 
   const handleClick = () => {
     const url = `whatsapp://send?text=${sendingUrl}`;

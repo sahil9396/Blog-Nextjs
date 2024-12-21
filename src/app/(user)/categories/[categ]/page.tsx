@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     console.log(error);
     return {
       openGraph: {
-        title: "No posts found",
-        description: "No posts found",
+        title: "No category found",
+        description: "No category found",
         images: [""],
       },
     };

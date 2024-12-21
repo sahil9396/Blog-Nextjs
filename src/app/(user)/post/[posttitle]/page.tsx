@@ -1,7 +1,44 @@
 import ImageCom from "@/components/ImageCom";
 import SharingButton from "@/components/sharingButton";
 import { getPostById } from "@/lib/getThings";
+import { Metadata } from "next";
 import React from "react";
+
+type Props = {
+  params: { posttitle: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  try {
+    const slug = params.posttitle;
+    const posts = await getPostById(parseInt(slug));
+    if (!posts) {
+      return {
+        openGraph: {
+          title: "No posts found",
+          description: "No posts found",
+          images: [""],
+        },
+      };
+    }
+    return {
+      openGraph: {
+        title: `${posts.tag.name} - AstroArt`,
+        description: `Explore articles on ${posts.tag.description}`,
+        images: posts.imageUrl ? [posts.imageUrl] : [""],
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      openGraph: {
+        title: "No posts found",
+        description: "No posts found",
+        images: [""],
+      },
+    };
+  }
+}
 
 export default async function Page({
   params,
@@ -60,7 +97,7 @@ export default async function Page({
         <SharingButton id={id} />
       </section>
 
-      <div className={`${imageUrl ? "w-full h-48 md:h-fit" : "hidden"}`}>
+      <div className={`${imageUrl ? "w-full h-48 md:h-full" : "hidden"}`}>
         <ImageCom image={imageUrl} />
       </div>
 

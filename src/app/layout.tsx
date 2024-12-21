@@ -1,3 +1,4 @@
+import { keywords } from "@/lib/utils";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Merriweather } from "next/font/google";
@@ -14,25 +15,28 @@ const merriweather = Merriweather({
   variable: "--font-merriweather",
 });
 
-const baseUrl = "https://AstroArt.dev";
+const baseUrl = process.env.BASE_URL || "";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  keywords: keywords,
   title: {
-    default: "AstroArt",
-    template : `%s | AstroArt`
+    default: "Archana-AstroArt",
+    template: `%s | Archana-AstroArt`,
   },
-  openGraph:{
-    title: "AstroArt",
-    description: "Explore articles on mindfulness, personal growth, and creative living.",
-    images: [""]
-  }
+  openGraph: {
+    title: "Archana-AstroArt",
+    description:
+      "Here you can find all the information about Archana's AstroArt, a person that loves to help people with astrology .",
+    images: [""],
+  },
 };
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  console.log(baseUrl);
   return (
     <html lang="en">
       <body
