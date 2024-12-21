@@ -13,78 +13,34 @@ export const createPost = async (
   },
   slug: string
 ) => {
-  let categoryExist = null;
   try {
-    categoryExist = await db.category.findUnique({
-      where: {
-        name: data.tag.trim(),
-      },
-    });
-  } catch (error) {
-    console.log("Failed to create post", error);
-    throw new Error("Failed to create post");
-  }
-
-  let postCreation = null;
-
-  try {
-    if (categoryExist) {
-      postCreation = await db.post.create({
-        data: {
-          title: data.title,
-          body: data.body,
-          imageUrl: data.imageId,
-          author: {
-            connect: {
-              email: process.env.AUTHOR_EMAIL || "random@gmail.com",
-            },
-          },
-          tag: {
-            connect: {
-              name: data.tag,
-              slug: slug,
-            },
+    const postCreation = await db.post.create({
+      data: {
+        title: data.title,
+        body: data.body,
+        imageUrl: data.imageId,
+        author: {
+          connect: {
+            email: process.env.ADMIN_EMAIL || "random@gmail.com",
           },
         },
-        include: {
-          tag: {
-            select: {
-              name: true,
-              slug: true,
-              description: true,
+        tag: {
+          connectOrCreate: {
+            where: {
+              name: data.tag.trim(),
             },
-          },
-        },
-      });
-    } else {
-      postCreation = await db.post.create({
-        data: {
-          title: data.title,
-          body: data.body,
-          author: {
-            connect: {
-              email: process.env.AUTHOR_EMAIL || "random@gmail.com",
-            },
-          },
-          tag: {
             create: {
-              name: data.tag,
+              name: data.tag.trim(),
               slug,
               description: data.tagDescription,
             },
           },
         },
-        include: {
-          tag: {
-            select: {
-              name: true,
-              slug: true,
-              description: true,
-            },
-          },
-        },
-      });
-    }
+      },
+      include: {
+        tag: true,
+      },
+    });
 
     revalidatePath("/");
     revalidatePath("/categories");

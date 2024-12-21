@@ -38,11 +38,8 @@ const AdminActions = () => {
         imageId: thatPost.imageUrl,
       });
       console.log(`Deleting post with ID: ${selectedPostId}`);
-      const updatedPostsList = allPosts.filter(
-        (post) => post.id !== selectedPostId
-      );
       setSelectedPostId(NaN);
-      dispatch({ type: "SET_POSTS", payload: updatedPostsList });
+      dispatch({ type: "DELETE_POST", payload: selectedPostId });
       toast.success("Post deleted successfully");
     } catch (error) {
       console.log(error);

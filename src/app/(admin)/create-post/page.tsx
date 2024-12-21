@@ -126,6 +126,7 @@ export default function CreatePost() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    toast.message("Creating post...");
     try {
       const createdPost = await createPost(
         {
@@ -134,15 +135,10 @@ export default function CreatePost() {
         },
         slagGenerator(data.tag.toLowerCase())
       );
-      const alreadyExists = allCategories.find(
-        (category) => category.name === data.tag
-      );
-      if (!alreadyExists) {
-      }
       dispatch({
         type: "Add_CATEGORIES",
         payload: {
-          id: createdPost.tagId,
+          id: createdPost?.tag.id,
           name: createdPost?.tag.name,
           slug: createdPost?.tag.slug,
           description: createdPost?.tag.description,
@@ -154,7 +150,7 @@ export default function CreatePost() {
           ...createdPost,
           tag: {
             ...createdPost.tag,
-            id: createdPost.tagId,
+            id: createdPost?.tag.id,
           },
         },
       });

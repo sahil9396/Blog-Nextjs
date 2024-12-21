@@ -40,7 +40,6 @@ type Action =
   | { type: "DELETE_POST"; payload: number }
   | { type: "Add_POST"; payload: Post }
   | { type: "SET_CATEGORIES"; payload: Tag[] }
-  | { type: "DELETE_CATEGORIES"; payload: number }
   | { type: "Add_CATEGORIES"; payload: Tag }
   | { type: "SET_ALLDATA"; payload: sendingDataProps[] }
   | { type: "SET_ISLOADING"; payload: boolean };
@@ -56,6 +55,13 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_POSTS":
       return { ...state, posts: action.payload };
+    case "DELETE_POST":
+      const updatedPostsList = state.posts.filter(
+        (post) => post.id !== action.payload
+      );
+      return { ...state, posts: updatedPostsList };
+    case "Add_POST":
+      return { ...state, posts: [...state.posts, action.payload] };
     case "SET_CATEGORIES":
       return { ...state, tag: action.payload };
     case "Add_CATEGORIES":
